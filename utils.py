@@ -7,9 +7,10 @@ def TeamSelection(names, df):
     for name in names:
         if name in names_df:
             existing_player = df.loc[df['name'] == name]
-            player_map[name] = existing_player["trueskillmu"]
+            print(existing_player["trueskillmu"])
+            player_map[name] = float(existing_player["trueskillmu"])
         else:
-            player_map[name] = Rating().mu
+            player_map[name] = float(Rating().mu)
     
     player_map = dict(sorted(player_map.items(), key=lambda item: item[1]))
 
