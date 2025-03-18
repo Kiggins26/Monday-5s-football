@@ -48,6 +48,10 @@ def display_table():
     st.title('Greater Glasgow U70 Premier Monday Night 5s League')
     global df
     df = pd.read_csv(file_name)
+    #only players that have plater a min of 50% of the most player games are in the table
+    highest_amount_of_games_played = df["gp"].max()
+    df = df.loc[(df['gp']  >= (highest_amount_of_games_played//2))]
+    df["point ratio (p/gp)"] = df["p"] / df["gp"]
     st.dataframe(df)
 
 
