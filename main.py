@@ -48,11 +48,15 @@ def display_table():
     st.title('Greater Glasgow U70 Premier Monday Night 5s League')
     global df
     df = pd.read_csv(file_name)
+    df["point ratio (p/gp)"] = df["p"] / df["gp"]
     #only players that have plater a min of 50% of the most player games are in the table
     highest_amount_of_games_played = df["gp"].max()
-    df = df.loc[(df['gp']  >= (highest_amount_of_games_played//2))]
-    df["point ratio (p/gp)"] = df["p"] / df["gp"]
-    st.dataframe(df)
+    df_eligible = df.loc[(df['gp']  >= (highest_amount_of_games_played//2))]
+    df_ineligible = df.loc[(df['gp']  < (highest_amount_of_games_played//2))]
+    st.markdown("## Eligible Player Table")
+    st.dataframe(df_eligible)
+    st.markdown("## Ineligible Player Table")
+    st.dataframe(df_ineligible)
 
 
 pg = st.navigation([st.Page(team_picker, title = "Pick Team"), st.Page(upload_page_results, title = "Upload Game Results"), st.Page(display_table, title = "Check Table")])
